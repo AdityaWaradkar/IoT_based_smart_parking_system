@@ -1,0 +1,16 @@
+{
+    "name": "smart-parking-system",
+    "version": "1.0.0",
+    "description": "Backend for the Smart Parking System",
+    "main": "app.js",
+    "type": "module",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "bcrypt": "^5.1.0",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "firebase-admin": "^11.11.1"
+    }
+}
