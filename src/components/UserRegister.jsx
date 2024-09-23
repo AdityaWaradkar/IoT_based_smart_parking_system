@@ -1,8 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS for Toastify
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserRegister = () => {
   const [name, setName] = useState('');
@@ -11,24 +10,17 @@ const UserRegister = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('/api/user/register', { name, email, carNumber, password });
-      if (response.data.success) {
-        // Show success toast and navigate to login page
-        toast.success('Registration successful! Please log in.', { position: 'top-center', autoClose: 2000 });
-        setTimeout(() => {
-          navigate('/user/login');
-        }, 2000);
-      } else {
-        // Show alert with the registration failure message
-        toast.error(`Registration failed: ${response.data.message}`, { position: 'top-center' });
-      }
-    } catch (error) {
-      // Log any errors encountered during registration
-      console.error('Registration error:', error);
-      toast.error('An error occurred. Please try again later.', { position: 'top-center' });
+    
+    // Simulate registration success
+    if (name && email && carNumber && password) {
+      toast.success('Registration successful! Please log in.', { position: 'top-center', autoClose: 2000 });
+      setTimeout(() => {
+        navigate('/user/login'); // Redirect to login
+      }, 2000);
+    } else {
+      toast.error('Please fill in all fields.', { position: 'top-center' });
     }
   };
 
@@ -83,7 +75,7 @@ const UserRegister = () => {
         Go Back
       </button>
 
-      <ToastContainer /> {/* This is where the toasts will appear */}
+      <ToastContainer />
     </div>
   );
 };

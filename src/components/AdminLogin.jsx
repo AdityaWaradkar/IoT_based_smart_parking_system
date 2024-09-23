@@ -1,29 +1,27 @@
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS for Toastify
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdminLogin = () => {
   const [adminKey, setAdminKey] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('/api/admin/login', { adminKey, password });
-      if (response.data.success) {
-        // Show success notification and redirect to admin dashboard
-        toast.success('Login successful!', { position: 'top-center', autoClose: 2000 });
-        navigate('/admin/dashboard');
-      } else {
-        // Show error notification
-        toast.error(`Login failed: ${response.data.message}`, { position: 'top-center' });
-      }
-    } catch (error) {
-      // Show network error notification
-      toast.error('Network error! Please try again.', { position: 'top-center' });
+
+    // Simulate successful login
+    if (adminKey && password) {
+      toast.success('Login successful!', {
+        position: 'top-center',
+        autoClose: 2000,
+      });
+      setTimeout(() => {
+        navigate('/admin/dashboard'); // Redirect to admin dashboard
+      }, 2000);
+    } else {
+      toast.error('Please fill in all fields.', { position: 'top-center' });
     }
   };
 
@@ -47,15 +45,20 @@ const AdminLogin = () => {
           className="w-full p-3 border border-gray-300 rounded-lg"
           required
         />
-        <button type="submit" className="w-full bg-green-500 text-white p-3 rounded-lg">Login</button>
+        <button
+          type="submit"
+          className="w-full bg-green-500 text-white p-3 rounded-lg"
+        >
+          Login
+        </button>
       </form>
-      <button 
-        onClick={() => navigate('/')} 
+      <button
+        onClick={() => navigate('/')}
         className="mt-4 bg-gray-300 text-black p-3 rounded-lg w-full"
       >
         Go Back
       </button>
-      <ToastContainer /> {/* This is where the toasts will appear */}
+      <ToastContainer />
     </div>
   );
 };

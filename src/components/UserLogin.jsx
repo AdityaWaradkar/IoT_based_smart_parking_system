@@ -1,49 +1,25 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS for Toastify
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserLogin = () => {
-  const [carNumber, setCarNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
 
-    // Construct request body
-    const loginData = {
-      carNumber,
-      password,
-    };
-
-    try {
-      // Send login request to backend
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        // If login is successful, show success popup and redirect
-        toast.success('Login successful!', { position: 'top-center', autoClose: 2000 });
-        
-        // Store authentication token if returned by backend
-        localStorage.setItem('authToken', result.token);
-        
-        setTimeout(() => {
-          navigate('/dashboard'); // Redirect to user dashboard
-        }, 2000);
-      } else {
-        // If login fails, show error popup
-        toast.error(`Login failed: ${result.error}`, { position: 'top-center' });
-      }
-    } catch (error) {
-      // If there is a network error, show an error popup
-      toast.error('Network error! Please try again.', { position: 'top-center' });
+    // Simulate login success
+    if (email && password) {
+      toast.success('Login successful!', { position: 'top-center', autoClose: 2000 });
+      localStorage.setItem('authToken', 'dummyToken'); // Simulated token
+      setTimeout(() => {
+        navigate('/user/dashboard'); // Redirect to user dashboard
+      }, 2000);
+    } else {
+      toast.error('Please enter valid credentials.', { position: 'top-center' });
     }
   };
 
@@ -52,11 +28,11 @@ const UserLogin = () => {
       <h1 className="text-2xl font-bold text-center mb-8">User Login</h1>
       <form className="space-y-4" onSubmit={handleLogin}>
         <input
-          type="text"
-          placeholder="Car Number"
+          type="email"
+          placeholder="Email"
           className="w-full p-3 border border-gray-300 rounded-lg"
-          value={carNumber}
-          onChange={(e) => setCarNumber(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input
@@ -74,20 +50,14 @@ const UserLogin = () => {
 
       <p className="mt-4 text-center">
         Don’t have an account?{' '}
-        <button
-          onClick={() => navigate('/user/register')}
-          className="text-blue-500 underline"
-        >
+        <button onClick={() => navigate('/user/register')} className="text-blue-500 underline">
           Register here
         </button>
       </p>
 
-      <ToastContainer /> {/* This is where the toasts will appear */}
+      <ToastContainer />
 
-      <button
-        onClick={() => navigate('/')}
-        className="mt-4 bg-gray-300 text-black p-3 rounded-lg w-full"
-      >
+      <button onClick={() => navigate('/')} className="mt-4 bg-gray-300 text-black p-3 rounded-lg w-full">
         Go Back
       </button>
     </div>
