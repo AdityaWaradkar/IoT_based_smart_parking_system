@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import adminProfileAvatar from '../assets/UserSelectionAvatar/adminProfileAvatar.png';
-import userProfileAvatar from '../assets/UserSelectionAvatar/userProfileAvatar.png';
+import adminProfileAvatar from '../../assets/UserSelectionAvatar/adminProfileAvatar.png';
+import userProfileAvatar from '../../assets/UserSelectionAvatar/userProfileAvatar.png';
 
 const UserSelection = () => {
   return (
-    <div className="h-screen w-screen flex flex-col lg:flex-row">
+    <div className="h-screen w-screen flex flex-col lg:flex-row overflow-hidden"> 
       {/* Admin Section */}
       <div className="flex-1 flex flex-col justify-center items-center bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600">
         <div className="flex flex-col items-center space-y-10">
