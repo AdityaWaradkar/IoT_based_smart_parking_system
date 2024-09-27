@@ -1,34 +1,40 @@
 import React from 'react';
+import Card from './Card';
+import card_1_img from '../../assets/UserHomeSection/card_1_img.jpg';
+import card_2_img from '../../assets/UserHomeSection/card_2_img.jpg';
+import card_3_img from '../../assets/UserHomeSection/card_3_img.png';
 
 const UserHome = () => {
   return (
-    <div className="flex flex-col h-screen pb-10" id='card-section'>
+    <div className="flex flex-col h-screen pb-10 bg-gray-50" id="card-section">
       {/* Parent div that takes height from header to bottom */}
-      <div className="flex-grow w-full p-5 mt-16 flex flex-col items-center justify-between ">
-        <div className="flex flex-col md:flex-row justify-center items-center w-full h-full">
+      <div className="flex-grow w-full p-5 mt-16 flex flex-col items-center justify-between">
+        <div className="flex flex-col md:flex-row justify-center items-center w-full h-full gap-6"> {/* Increased gap here */}
+          
           {/* Card 1 */}
-          <div className="card-container bg-white p-5 mx-2 mb-4 md:mb-0 md:flex-grow flex items-center justify-center rounded-lg shadow-lg h-[250px] w-full md:h-[700px] md:w-[300px]">
-            <div className="card p-4">
-              <h2 className="text-xl font-bold">Card 1 Title</h2>
-              <p className="text-gray-500">Card 1 content</p>
-            </div>
-          </div>
+          <Card
+            title="Reserve Your Parking Spot"
+            content="Quickly reserve a parking spot with a single click. Check availability and book your space now!"
+            buttonText="Book Now"
+            image={card_1_img}  // Using the imported image for Card 1
+          />
 
           {/* Card 2 */}
-          <div className="card-container bg-white p-5 mx-2 mb-4 md:mb-0 md:flex-grow flex items-center justify-center rounded-lg shadow-lg h-[250px] w-full md:h-[700px] md:w-[300px]">
-            <div className="card p-4">
-              <h2 className="text-xl font-bold">Card 2 Title</h2>
-              <p className="text-gray-500">Card 2 content</p>
-            </div>
-          </div>
+          <Card
+            title="View Your Booking History"
+            content="See a complete record of your previous parking reservations and manage your bookings easily."
+            buttonText="Check History"
+            image={card_2_img}  // Using the imported image for Card 2
+          />
 
           {/* Card 3 */}
-          <div className="card-container bg-white p-5 mx-2 mb-4 md:mb-0 md:flex-grow flex items-center justify-center rounded-lg shadow-lg h-[250px] w-full md:h-[700px] md:w-[300px] ">
-            <div className="card p-4">
-              <h2 className="text-xl font-bold">Card 3 Title</h2>
-              <p className="text-gray-500">Card 3 content</p>
-            </div>
-          </div>
+          <Card
+            title="Find Parking Spots Nearby"
+            content="Discover available parking spots close to your location. View them on a map for easy navigation."
+            buttonText="Find on Map"
+            image={card_3_img}  // Using the imported image for Card 3
+          />
+
         </div>
       </div>
     </div>

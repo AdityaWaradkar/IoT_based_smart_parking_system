@@ -72,6 +72,10 @@ const sliderData = [
 const UserHome = () => {
   return (
     <div className="flex flex-col">
+       {/* Card Section */}
+       <div className="h-screen w-full bg-gray mb-20">
+        <CardSection />
+      </div>
          {/* Parking Carousel Section */}
          <div
         className="md:h-screen md:w-full md:flex md:items-center md:justify-center hidden"
@@ -80,10 +84,7 @@ const UserHome = () => {
         <Slider data={sliderData} activeSlide={0} />
       </div>
 
-      {/* Card Section */}
-      <div className="h-screen w-full bg-gray mb-20">
-        <CardSection />
-      </div>
+     
 
    
     </div>

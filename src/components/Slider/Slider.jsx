@@ -95,14 +95,14 @@ export default function Slider({ data, activeSlide: initialActiveSlide }) {
         <button
           className="bg-white rounded-full p-2 hover:bg-gray-200"
           onClick={prev}
-          style={{ opacity: 0.4 }} // Reduced opacity further
+          style={{ opacity: 0.7 }}
         >
           <FontAwesomeIcon icon={faChevronLeft} color="#000" />
         </button>
         <button
           className="bg-white rounded-full p-2 hover:bg-gray-200"
           onClick={next}
-          style={{ opacity: 0.4 }} // Reduced opacity further
+          style={{ opacity: 0.7 }}
         >
           <FontAwesomeIcon icon={faChevronRight} color="#000" />
         </button>
@@ -113,10 +113,20 @@ export default function Slider({ data, activeSlide: initialActiveSlide }) {
 
 const SliderContent = ({ icon, title, desc }) => {
   return (
-    <div className="flex flex-col items-start text-white p-4 md:p-[30px] font-sans">
+    <div className="flex flex-col items-start text-white p-4 md:p-[30px] font-sans h-full">
       {icon}
-      <h2 className="text-lg font-bold my-4">{title}</h2>
-      <p className="mb-4">{desc}</p>
+      <h2 className="text-6xl font-bold my-4">{title}</h2> {/* Increased title size */}
+      <p className="mb-4 text-2xl">{desc}</p> {/* Increased description size */}
+      {/* Add Advertising Text */}
+      <div className="mt-4 text-6xl font-bold text-yellow-400 text-center">
+        Unlock Your Driving Experience!
+      </div>
+      <p className="mt-1 text-xl text-gray-300 text-center">
+        Find the best cars with unbeatable offers today!
+      </p>
+      <div className="mt-4 text-xl text-green-300 text-center">
+        Drive away in style and comfort!
+      </div>
     </div>
   );
 };
