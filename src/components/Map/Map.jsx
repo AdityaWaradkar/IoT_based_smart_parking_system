@@ -25,7 +25,6 @@ const SetView = ({ position }) => {
         [position[0] - 0.00045, position[1] + 0.00045], // Top right corner
       ];
       map.fitBounds(bounds); // Fit the map to these bounds
-      map.setView(position, map.getZoom()); // Center the map on the current position
     }
   }, [position, map]);
 
@@ -33,8 +32,9 @@ const SetView = ({ position }) => {
 };
 
 function Map() {
-  const navigate = useNavigate(); // Initialize navigate
-  const [position, setPosition] = useState(null); // Default position
+  const navigate = useNavigate();
+  const [position, setPosition] = useState(null);
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     // Get user's current location
@@ -42,22 +42,23 @@ function Map() {
       (pos) => {
         const { latitude, longitude } = pos.coords;
         setPosition([latitude, longitude]);
+        setLoading(false); // Set loading to false after position is obtained
       },
       (error) => {
-        console.error("Error getting location: ", error);
-        // Handle the error here, e.g., set a default position or show a message
+        console.error('Error getting location: ', error);
+        // Fallback position or error handling
+        setPosition([0, 0]); // Set a default position if geolocation fails
+        setLoading(false);
       }
     );
   }, []);
 
-  // Function to handle navigation back to UserHome
   const handleBackClick = () => {
-    navigate('/user/home'); // Navigate to UserHome
+    navigate('/user/home');
   };
 
   return (
     <div className="h-screen w-full relative">
-      {/* Cross Button */}
       <button
         onClick={handleBackClick}
         className="absolute top-4 right-4 text-5xl font-bold text-gray-700 bg-white rounded-full border-2 border-gray-700 shadow-md p-2 focus:outline-none hover:bg-gray-300 z-10"
@@ -65,28 +66,28 @@ function Map() {
         &times; {/* Cross symbol */}
       </button>
 
-      {/* Map Container with padding */}
       <div className="h-full w-full p-4">
         <div className="h-full rounded-lg shadow-lg overflow-hidden">
-          <MapContainer center={position || [0, 0]} zoom={14} className="h-full" whenCreated={(map) => {
-            // Set the initial view when the map is created
-            if (position) {
-              map.setView(position, 14); // Center the map on the user's current location
-            }
-          }}>
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            {position && (
-              <>
-                <Marker position={position} icon={icon}>
-                  <Popup>You are here!</Popup>
-                </Marker>
-                <SetView position={position} /> {/* Set the map view */}
-              </>
-            )}
-          </MapContainer>
+          {loading ? ( // Show loading state
+            <div className="flex justify-center items-center h-full">
+              <p className="text-lg">Loading map...</p>
+            </div>
+          ) : (
+            <MapContainer center={position} zoom={14} className="h-full">
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              {position && (
+                <>
+                  <Marker position={position} icon={icon}>
+                    <Popup>You are here!</Popup>
+                  </Marker>
+                  <SetView position={position} />
+                </>
+              )}
+            </MapContainer>
+          )}
         </div>
       </div>
     </div>

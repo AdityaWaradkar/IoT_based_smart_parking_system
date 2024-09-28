@@ -12,10 +12,13 @@ const UserRegister = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    
+
     // Simulate registration success
     if (name && email && carNumber && password) {
-      toast.success('Registration successful! Please log in.', { position: 'top-center', autoClose: 2000 });
+      toast.success('Registration successful! Please log in.', {
+        position: 'top-center',
+        autoClose: 2000,
+      });
       setTimeout(() => {
         navigate('/user/login'); // Redirect to login
       }, 2000);
@@ -60,7 +63,12 @@ const UserRegister = () => {
           className="w-full p-3 border border-gray-300 rounded-lg"
           required
         />
-        <button type="submit" className="w-full bg-green-500 text-white p-3 rounded-lg">Register</button>
+        <button
+          type="submit"
+          className="w-full bg-green-500 text-white p-3 rounded-lg"
+        >
+          Register
+        </button>
       </form>
       <p className="text-center mt-4">
         Already have an account?{' '}
@@ -68,8 +76,8 @@ const UserRegister = () => {
           Login here
         </Link>
       </p>
-      <button 
-        onClick={() => navigate('/')} 
+      <button
+        onClick={() => navigate('/')}
         className="mt-4 bg-gray-300 text-black p-3 rounded-lg w-full"
       >
         Go Back

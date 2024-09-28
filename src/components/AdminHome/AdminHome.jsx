@@ -1,12 +1,12 @@
 import React from 'react';
 
 const AdminHome = () => {
-  // Sample data for slots (1 for occupied, 0 for available)
   const slots = [0, 1, 0, 1, 0, 0, 1, 0, 0, 1]; // Example: 0 = available, 1 = occupied
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 p-5">
       <h1 className="text-2xl font-bold mb-5 text-center">Admin Dashboard</h1>
+
       <div className="flex-grow grid grid-cols-5 gap-4 mb-10">
         {slots.map((slot, index) => (
           <div key={index} className="flex items-center justify-center">
@@ -15,15 +15,18 @@ const AdminHome = () => {
                 slot === 0 ? 'bg-green-500' : 'bg-red-500'
               }`}
             >
-              <span className="absolute text-xl font-semibold text-black">{index + 1}</span> {/* Slot number */}
+              <span className="absolute text-xl font-semibold text-black">
+                {index + 1}
+              </span>
             </div>
-            <span className="ml-4 text-xl font-semibold flex-grow text-center">
+            <span className="ml-4 text-xl font-semibold text-center">
               {slot === 0 ? 'Available' : 'Occupied'}
             </span>
           </div>
         ))}
       </div>
-      <div className="flex justify-center gap-5 mb-5">
+
+      <div className="flex justify-center gap-5">
         <button className="bg-blue-500 text-white py-4 px-8 rounded-lg text-xl hover:bg-blue-600 transition">
           See User Details
         </button>

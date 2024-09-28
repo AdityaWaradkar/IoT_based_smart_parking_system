@@ -9,12 +9,13 @@ const UserLogin = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    // Simulate successful login
+    // Check if both fields are filled
     if (email && password) {
       toast.success('Login successful!', {
         position: 'top-center',
         autoClose: 1000,
       });
+      // Redirect after a short delay
       setTimeout(() => {
         navigate('/user/home'); // Redirect to user home page
       }, 1000);
@@ -53,7 +54,10 @@ const UserLogin = () => {
 
       <p className="mt-4 text-center">
         Don’t have an account?{' '}
-        <button onClick={() => navigate('/user/register')} className="text-blue-500 underline">
+        <button
+          onClick={() => navigate('/user/register')}
+          className="text-blue-500 underline"
+        >
           Register here
         </button>
       </p>

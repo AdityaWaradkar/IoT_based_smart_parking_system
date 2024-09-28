@@ -5,12 +5,15 @@ import { faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons
 export default function Slider({ data, activeSlide: initialActiveSlide }) {
   const [activeSlide, setActiveSlide] = useState(initialActiveSlide || 0);
 
+  // Function to go to the next slide
   const next = () => 
     setActiveSlide((prev) => (prev < data.length - 1 ? prev + 1 : 0));
 
+  // Function to go to the previous slide
   const prev = () => 
     setActiveSlide((prev) => (prev > 0 ? prev - 1 : data.length - 1));
 
+  // Get styles for the slides
   const getStyles = (index) => {
     const baseStyle = {
       opacity: 0,
@@ -19,7 +22,6 @@ export default function Slider({ data, activeSlide: initialActiveSlide }) {
       transition: "transform 0.6s ease, opacity 0.6s ease",
     };
 
-    // Center active slide
     if (activeSlide === index) {
       return {
         ...baseStyle,
@@ -27,52 +29,41 @@ export default function Slider({ data, activeSlide: initialActiveSlide }) {
         transform: "scale(1.25) translateX(0px) translateZ(0px) rotateY(0deg)",
         zIndex: 10,
       };
-    }
-    // Slide to the left (previous slide)
-    else if (activeSlide - 1 === index || (activeSlide === 0 && index === data.length - 1)) {
+    } else if (activeSlide - 1 === index || (activeSlide === 0 && index === data.length - 1)) {
       return {
         ...baseStyle,
         opacity: 1,
         transform: "scale(1) translateX(-240px) translateZ(-400px) rotateY(35deg)",
         zIndex: 9,
       };
-    }
-    // Slide to the right (next slide)
-    else if (activeSlide + 1 === index || (activeSlide === data.length - 1 && index === 0)) {
+    } else if (activeSlide + 1 === index || (activeSlide === data.length - 1 && index === 0)) {
       return {
         ...baseStyle,
         opacity: 1,
         transform: "scale(1) translateX(240px) translateZ(-400px) rotateY(-35deg)",
         zIndex: 9,
       };
-    }
-    // Two steps left
-    else if (activeSlide - 2 === index || (activeSlide - 1 === 0 && index === data.length - 1)) {
+    } else if (activeSlide - 2 === index || (activeSlide - 1 === 0 && index === data.length - 1)) {
       return {
         ...baseStyle,
         opacity: 0.6,
         transform: "scale(0.9) translateX(-480px) translateZ(-500px) rotateY(35deg)",
         zIndex: 8,
       };
-    }
-    // Two steps right
-    else if (activeSlide + 2 === index || (activeSlide + 1 === data.length - 1 && index === 0)) {
+    } else if (activeSlide + 2 === index || (activeSlide + 1 === data.length - 1 && index === 0)) {
       return {
         ...baseStyle,
         opacity: 0.6,
         transform: "scale(0.9) translateX(480px) translateZ(-500px) rotateY(-35deg)",
         zIndex: 8,
       };
-    }
-    // Far slides (invisible or collapsed)
-    else {
+    } else {
       return baseStyle;
     }
   };
 
   return (
     <div className="relative flex flex-col items-center">
-      {/* Carousel Container, adjusted height and width */}
       <div className="relative w-full md:w-[900px] md:h-[600px] mx-auto perspective-[1000px] transform-style-preserve-3d block md:block">
         {data.map((item, i) => (
           <div
@@ -90,9 +81,9 @@ export default function Slider({ data, activeSlide: initialActiveSlide }) {
         ))}
       </div>
 
-      {/* Navigation Buttons */}
       <div className="absolute top-[50%] left-0 right-0 flex justify-between items-center transform -translate-y-1/2 px-8 z-20 block md:flex">
         <button
+          aria-label="Previous Slide"
           className="bg-white rounded-full p-2 hover:bg-gray-200"
           onClick={prev}
           style={{ opacity: 0.7 }}
@@ -100,6 +91,7 @@ export default function Slider({ data, activeSlide: initialActiveSlide }) {
           <FontAwesomeIcon icon={faChevronLeft} color="#000" />
         </button>
         <button
+          aria-label="Next Slide"
           className="bg-white rounded-full p-2 hover:bg-gray-200"
           onClick={next}
           style={{ opacity: 0.7 }}

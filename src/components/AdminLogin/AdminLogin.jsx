@@ -9,14 +9,13 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    // Simulate successful login
     if (adminKey && password) {
       toast.success('Login successful!', {
         position: 'top-center',
         autoClose: 1000,
       });
       setTimeout(() => {
-        navigate('/admin/home'); // Redirect to admin home page
+        navigate('/admin/home');
       }, 1000);
     } else {
       toast.error('Please fill in all fields.', { position: 'top-center' });
@@ -33,7 +32,6 @@ const AdminLogin = () => {
           value={adminKey}
           onChange={(e) => setAdminKey(e.target.value)}
           className="w-full p-3 border border-gray-300 rounded-lg"
-          required
         />
         <input
           type="password"
@@ -41,10 +39,9 @@ const AdminLogin = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full p-3 border border-gray-300 rounded-lg"
-          required
         />
         <button
-          onClick={handleLogin} // Call handleLogin on button click
+          onClick={handleLogin}
           className="w-full bg-green-500 text-white p-3 rounded-lg"
         >
           Login

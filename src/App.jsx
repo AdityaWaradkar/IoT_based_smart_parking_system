@@ -13,18 +13,18 @@ import UserRegister from './components/UserLoginRegister/UserRegister';
 import AdminLogin from './components/AdminLogin/AdminLogin';
 import UserHome from './components/UserHome/UserHome';
 import AdminHome from './components/AdminHome/AdminHome';
-import Map from './components/Map/Map'
+import Map from './components/Map/Map';
 
 function App() {
   const location = useLocation();
   const noHeaderPaths = ['/', '/user/login', '/user/register', '/admin/login'];
   const noFooterPaths = ['/', '/user/login', '/user/register', '/admin/login'];
 
-
-
   return (
     <div className="h-screen flex flex-col bg-gray-100">
+      {/* Conditional rendering of Header */}
       {!noHeaderPaths.includes(location.pathname) && <Header />}
+
       <div className="flex-grow pt-16">
         <Routes>
           <Route path="/" element={<UserSelection />} />
@@ -33,13 +33,14 @@ function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/about" element={<div>About Us Page</div>} />
           <Route path="/sections" element={<div>Sections Page</div>} />
-          <Route path="/user/home" element={<UserHome/>} /> {/* Pass sliderData */}
+          <Route path="/user/home" element={<UserHome />} />
           <Route path="/admin/home" element={<AdminHome />} />
           <Route path="/admin/dashboard" element={<AdminHome />} />
           <Route path="/user/home/map" element={<Map />} />
-
         </Routes>
       </div>
+
+      {/* Conditional rendering of Footer */}
       {!noFooterPaths.includes(location.pathname) && <Footer />}
     </div>
   );

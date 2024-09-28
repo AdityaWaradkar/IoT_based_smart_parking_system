@@ -9,8 +9,6 @@ const CardSection = ({ onFindMapClick }) => {
     <div className="flex flex-col h-full pb-10 bg-gray-50" id="card-section">
       <div className="flex-grow w-full p-5 mt-16 flex flex-col items-center justify-between">
         <div className="flex flex-col md:flex-row justify-center items-center w-full h-full gap-6">
-          
-          {/* Card 1 */}
           <Card
             title="Reserve Your Parking Spot"
             content="Quickly reserve a parking spot with a single click. Check availability and book your space now!"
@@ -18,7 +16,6 @@ const CardSection = ({ onFindMapClick }) => {
             image={card_1_img}
           />
 
-          {/* Card 2 */}
           <Card
             title="View Your Booking History"
             content="See a complete record of your previous parking reservations and manage your bookings easily."
@@ -26,15 +23,13 @@ const CardSection = ({ onFindMapClick }) => {
             image={card_2_img}
           />
 
-          {/* Card 3 */}
           <Card
             title="Find Parking Spots Nearby"
             content="Discover available parking spots close to your location. View them on a map for easy navigation."
             buttonText="Find on Map"
             image={card_3_img}
-            onButtonClick={onFindMapClick} // Pass the click event handler
+            onButtonClick={onFindMapClick}
           />
-
         </div>
       </div>
     </div>
