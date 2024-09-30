@@ -2,7 +2,7 @@ import React from 'react';
 
 const Card = ({ title, content, buttonText, image, onButtonClick }) => {
   return (
-    <div className="bg-white rounded-3xl shadow-2xl p-5 mx-2 mb-4 md:mb-0 md:flex-grow flex flex-col justify-between items-center h-[250px] w-full md:h-[700px] md:w-[300px] transition-transform transform hover:scale-102 duration-300">
+    <div className="bg-white rounded-3xl shadow-2xl p-5 mx-2 mb-4 md:mb-0 md:flex-grow flex flex-col justify-between items-center h-[350px] w-full md:h-[700px] md:w-[300px] transition-transform transform hover:scale-102 duration-300"> {/* Increased height for mobile */}
       <div className="w-full h-[70%] flex items-center justify-center rounded-t-3xl overflow-hidden">
         <img
           src={image}

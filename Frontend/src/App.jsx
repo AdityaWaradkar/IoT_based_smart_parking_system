@@ -14,6 +14,8 @@ import AdminLogin from './components/AdminLogin/AdminLogin';
 import UserHome from './components/UserHome/UserHome';
 import AdminHome from './components/AdminHome/AdminHome';
 import Map from './components/Map/Map';
+import UserHistory from './components/UserHistory/UserHistory';
+import ParkingDuration from './components/Booking/ParkingDuration';
 
 function App() {
   const location = useLocation();
@@ -40,6 +42,8 @@ function App() {
           <Route path="/admin/home" element={<AdminHome />} />
           <Route path="/admin/dashboard" element={<AdminHome />} />
           <Route path="/user/home/map" element={<Map />} />
+          <Route path="/user/home/history" element={<UserHistory />} />
+          <Route path="/user/home/parkingduration" element={<ParkingDuration />} />
         </Routes>
       </div>
 

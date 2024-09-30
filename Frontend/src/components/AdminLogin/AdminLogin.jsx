@@ -1,54 +1,81 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminLogin = () => {
-  const [adminKey, setAdminKey] = useState('');
-  const [password, setPassword] = useState('');
+  const [adminKey, setAdminKey] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    // Check if both fields are filled
     if (adminKey && password) {
-      toast.success('Login successful!', {
-        position: 'top-center',
-        autoClose: 1000,
-      });
-      setTimeout(() => {
-        navigate('/admin/home');
-      }, 1000);
+      try {
+        const response = await fetch("http://localhost:5000/api/admin/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ adminKey, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          toast.success(data.message, {
+            position: "top-center",
+            autoClose: 1000,
+          });
+          // Redirect after a short delay
+          setTimeout(() => {
+            navigate("/admin/home"); // Redirect to admin home page
+          }, 1000);
+        } else {
+          toast.error(data.message, { position: "top-center" });
+        }
+      } catch (error) {
+        toast.error("Login failed. Please try again.", {
+          position: "top-center",
+        });
+      }
     } else {
-      toast.error('Please fill in all fields.', { position: 'top-center' });
+      toast.error("Please fill in all fields.", { position: "top-center" });
     }
   };
 
   return (
     <div className="bg-white p-10 rounded-lg shadow-lg w-80 mx-auto mt-10">
       <h1 className="text-2xl font-bold text-center mb-8">Admin Login</h1>
-      <div className="space-y-4">
+      <form className="space-y-4" onSubmit={handleLogin}>
         <input
           type="text"
           placeholder="Admin Key"
+          className="w-full p-3 border border-gray-300 rounded-lg"
           value={adminKey}
           onChange={(e) => setAdminKey(e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg"
+          required
         />
         <input
           type="password"
           placeholder="Password"
+          className="w-full p-3 border border-gray-300 rounded-lg"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg"
+          required
         />
         <button
-          onClick={handleLogin}
+          type="submit" // Change to submit type
           className="w-full bg-green-500 text-white p-3 rounded-lg"
         >
           Login
         </button>
-      </div>
+      </form>
+
       <button
-        onClick={() => navigate('/')}
+        onClick={() => navigate("/")}
         className="mt-4 bg-gray-300 text-black p-3 rounded-lg w-full"
       >
         Go Back

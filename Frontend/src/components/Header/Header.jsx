@@ -21,9 +21,9 @@ function Header() {
       <div className="container mx-auto flex justify-between items-center">
         <div
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="text-2xl font-bold text-gray-700 cursor-pointer"
+          className="text-4xl font-bold text-gray-700 cursor-pointer"
         >
-          ParkSense
+          <span className='text-red-800'>Park</span><span className='text-teal-700'>Sense </span>
         </div>
         <nav className="space-x-6 flex items-center">
           <button

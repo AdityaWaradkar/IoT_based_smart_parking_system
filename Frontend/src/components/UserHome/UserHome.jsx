@@ -1,3 +1,4 @@
+// src/components/UserHome/UserHome.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import CardSection from '../CardSection/CardSection';
@@ -25,7 +26,6 @@ const sliderData = [
     desc: 'Fresh sushi',
     bgColor: '#900C3F',
   },
- 
 ];
 
 const UserHome = () => {
@@ -36,19 +36,25 @@ const UserHome = () => {
     navigate('/user/home/map'); // Navigate to the map route
   };
 
-  return (
-    <div className="flex flex-col">
-      {/* CardSection for interaction */}
-      <div className="h-screen w-full bg-gray mb-20">
-        <CardSection onFindMapClick={handleFindMapClick} />
-      </div>
+  // Handle the "Check History" button click
+  const handleCheckHistoryClick = () => {
+    navigate('/user/home/history'); // Navigate to the history route
+  };
 
-      {/* Slider Section (hidden by default) */}
-      <div
-        className="md:h-screen md:w-full md:flex md:items-center md:justify-center hidden"
-        id="slider"
-      >
-        <Slider data={sliderData} activeSlide={0} />
+  // Handle the "Book Now" button click
+  const handleBookNowClick = () => {
+    navigate('/user/home/parkingduration'); // Navigate to the parking duration route
+  };
+
+  return (
+    <div className="flex flex-col h-screen">
+      {/* CardSection for interaction */}
+      <div className="flex-grow w-full bg-gray-200 mb-5">
+        <CardSection 
+          onFindMapClick={handleFindMapClick} 
+          onCheckHistoryClick={handleCheckHistoryClick} 
+          onBookNowClick={handleBookNowClick} // Pass the book now handler
+        />
       </div>
     </div>
   );

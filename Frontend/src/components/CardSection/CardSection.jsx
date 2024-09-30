@@ -1,10 +1,11 @@
+// src/components/CardSection/CardSection.jsx
 import React from 'react';
 import Card from './Card';
 import card_1_img from '../../assets/UserHomeSection/card_1_img.jpg';
 import card_2_img from '../../assets/UserHomeSection/card_2_img.jpg';
 import card_3_img from '../../assets/UserHomeSection/card_3_img.png';
 
-const CardSection = ({ onFindMapClick }) => {
+const CardSection = ({ onFindMapClick, onCheckHistoryClick, onBookNowClick }) => {
   return (
     <div className="flex flex-col h-full pb-10 bg-gray-50" id="card-section">
       <div className="flex-grow w-full p-5 mt-16 flex flex-col items-center justify-between">
@@ -14,6 +15,7 @@ const CardSection = ({ onFindMapClick }) => {
             content="Quickly reserve a parking spot with a single click. Check availability and book your space now!"
             buttonText="Book Now"
             image={card_1_img}
+            onButtonClick={onBookNowClick} // Pass the book now click handler
           />
 
           <Card
@@ -21,6 +23,7 @@ const CardSection = ({ onFindMapClick }) => {
             content="See a complete record of your previous parking reservations and manage your bookings easily."
             buttonText="Check History"
             image={card_2_img}
+            onButtonClick={onCheckHistoryClick} // Navigate on button click
           />
 
           <Card
