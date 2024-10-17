@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes'); // Import admin routes
+const parkingRoutes = require('./routes/parkingDurationRoutes'); // Import parking routes
 const cors = require('cors'); // Import the cors middleware
 
 connectDB();
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes); // Use admin routes
+app.use('/api/parking', parkingRoutes); // Use parking routes
 
 const PORT = 5000;
 

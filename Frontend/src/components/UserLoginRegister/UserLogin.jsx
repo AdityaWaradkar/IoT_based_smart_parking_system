@@ -29,6 +29,11 @@ const UserLogin = () => {
             position: "top-center",
             autoClose: 1000,
           });
+
+          // Store user ID and name in local storage
+          localStorage.setItem('userId', data.userId); // Store user ID
+          localStorage.setItem('userName', data.userName); // Optionally store user name
+
           // Redirect after a short delay
           setTimeout(() => {
             navigate("/user/home"); // Redirect to user home page
@@ -67,7 +72,7 @@ const UserLogin = () => {
           required
         />
         <button
-          type="submit" // Change to submit type
+          type="submit"
           className="w-full bg-blue-500 text-white p-3 rounded-lg"
         >
           Login

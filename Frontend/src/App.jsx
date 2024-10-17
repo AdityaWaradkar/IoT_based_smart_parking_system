@@ -16,6 +16,7 @@ import AdminHome from './components/AdminHome/AdminHome';
 import Map from './components/Map/Map';
 import UserHistory from './components/UserHistory/UserHistory';
 import ParkingDuration from './components/Booking/ParkingDuration';
+import BillingInfo from './components/Booking/BillingInfo'; // Import the BillingInfo component
 
 function App() {
   const location = useLocation();
@@ -43,7 +44,8 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminHome />} />
           <Route path="/user/home/map" element={<Map />} />
           <Route path="/user/home/history" element={<UserHistory />} />
-          <Route path="/user/home/parkingduration" element={<ParkingDuration />} />
+          <Route path="/user/home/parkingDuration" element={<ParkingDuration />} />
+          <Route path="/user/home/parkingDuration/billing-info" element={<BillingInfo />} />
         </Routes>
       </div>
 

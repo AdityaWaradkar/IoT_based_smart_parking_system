@@ -43,7 +43,7 @@ const UserHome = () => {
 
   // Handle the "Book Now" button click
   const handleBookNowClick = () => {
-    navigate('/user/home/parkingduration'); // Navigate to the parking duration route
+    navigate('/user/home/parkingDuration'); // Navigate to the parking duration route
   };
 
   return (

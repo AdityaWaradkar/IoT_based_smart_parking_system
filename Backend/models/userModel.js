@@ -1,4 +1,3 @@
-// models/userModel.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -10,6 +9,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        match: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
     },
     carNumber: {
         type: String,
@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     }
-});
+}, { timestamps: true }); // Add timestamps for createdAt and updatedAt
 
+// No need for password hashing, so we remove the pre-save hook
 const User = mongoose.model('User', userSchema);
 module.exports = User;
