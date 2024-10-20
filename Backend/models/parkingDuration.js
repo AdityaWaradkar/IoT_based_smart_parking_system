@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 
 const ParkingDurationSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
+  userName: {
+    type: String, // Changed from ObjectId to String for userName
     required: true,
-    // Removed the ref field
   },
   hours: {
     type: Number,

@@ -16,7 +16,11 @@ import AdminHome from './components/AdminHome/AdminHome';
 import Map from './components/Map/Map';
 import UserHistory from './components/UserHistory/UserHistory';
 import ParkingDuration from './components/Booking/ParkingDuration';
-import BillingInfo from './components/Booking/BillingInfo'; // Import the BillingInfo component
+import BillingInfo from './components/Booking/BillingInfo'; 
+import Parking from './components/Booking/Payment'
+import Payment from './components/Booking/Payment';
+import SuccessMessage from './components/Booking/SuccessMessage';
+// Import the BillingInfo component
 
 function App() {
   const location = useLocation();
@@ -46,6 +50,9 @@ function App() {
           <Route path="/user/home/history" element={<UserHistory />} />
           <Route path="/user/home/parkingDuration" element={<ParkingDuration />} />
           <Route path="/user/home/parkingDuration/billing-info" element={<BillingInfo />} />
+          <Route path="/user/home/parkingDuration/billing-info/payment" element={<Payment />} />
+          <Route path="/user/home/parkingDuration/billing-info/payment/success" element={<SuccessMessage />} />
+      
         </Routes>
       </div>
 

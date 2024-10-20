@@ -10,20 +10,43 @@ const UserRegister = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Simulate registration success
-    if (name && email && carNumber && password) {
-      toast.success('Registration successful! Please log in.', {
-        position: 'top-center',
-        autoClose: 2000,
-      });
-      setTimeout(() => {
-        navigate('/user/login'); // Redirect to login
-      }, 2000);
-    } else {
+    // Check if all fields are filled
+    if (!name || !email || !carNumber || !password) {
       toast.error('Please fill in all fields.', { position: 'top-center' });
+      return;
+    }
+
+    // Make API request to backend
+    try {
+      const response = await fetch('/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, carNumber, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 201) {
+        // Registration successful
+        toast.success(data.message, {
+          position: 'top-center',
+          autoClose: 2000,
+        });
+        setTimeout(() => {
+          navigate('/user/login'); // Redirect to login
+        }, 1000);
+      } else {
+        // Handle errors from the backend (e.g., user already exists)
+        toast.error(data.message, { position: 'top-center' });
+      }
+    } catch (error) {
+      // Handle network/server error
+      toast.error('Server error. Please try again later.', { position: 'top-center' });
     }
   };
 
