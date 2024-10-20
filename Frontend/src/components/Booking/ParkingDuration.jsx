@@ -21,12 +21,11 @@ const ParkingDuration = () => {
     });
 
     if (isNaN(hoursValue) || hoursValue < 0) {
-      newErrors.hours = "Please enter a valid number for hours.";
+      newErrors.hours = "Enter a valid non-negative number for hours.";
     }
 
     if (isNaN(minutesValue) || minutesValue < 0 || minutesValue >= 60) {
-      newErrors.minutes =
-        "Please enter a valid number between 0 and 59 for minutes.";
+      newErrors.minutes = "Enter a valid number between 0 and 59 for minutes.";
     }
 
     setErrors(newErrors);
@@ -70,6 +69,9 @@ const ParkingDuration = () => {
             position: "top-center",
             autoClose: 1000,
           });
+          // Reset form fields
+          setHours("");
+          setMinutes("");
           navigate("/user/home/parkingDuration/billing-info", {
             state: { hours: hoursValue, minutes: minutesValue, userName },
           });

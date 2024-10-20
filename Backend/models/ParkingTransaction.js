@@ -1,5 +1,4 @@
-// models/ParkingTransaction.js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const ParkingTransactionSchema = new mongoose.Schema({
   userName: {
@@ -8,7 +7,7 @@ const ParkingTransactionSchema = new mongoose.Schema({
   },
   parkingDuration: {
     type: String,
-    required: true, // Use Number if duration is in hours or minutes
+    required: true,
   },
   totalPrice: {
     type: Number,
@@ -16,10 +15,14 @@ const ParkingTransactionSchema = new mongoose.Schema({
   },
   paymentDateTime: {
     type: Date,
-    default: Date.now, // Automatically set to current date/time
+    default: Date.now,
   },
 });
 
-const ParkingTransaction = mongoose.model('ParkingTransaction', ParkingTransactionSchema);
+// Create the ParkingTransaction model
+const ParkingTransaction = mongoose.model(
+  "ParkingTransaction",
+  ParkingTransactionSchema
+);
 
 module.exports = ParkingTransaction;

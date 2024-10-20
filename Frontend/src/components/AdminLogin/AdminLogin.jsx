@@ -9,9 +9,8 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
-    // Check if both fields are filled
     if (adminKey && password) {
       try {
         const response = await fetch("http://localhost:5000/api/admin/login", {
@@ -29,9 +28,8 @@ const AdminLogin = () => {
             position: "top-center",
             autoClose: 1000,
           });
-          // Redirect after a short delay
           setTimeout(() => {
-            navigate("/admin/home"); // Redirect to admin home page
+            navigate("/admin/home");
           }, 1000);
         } else {
           toast.error(data.message, { position: "top-center" });
@@ -67,7 +65,7 @@ const AdminLogin = () => {
           required
         />
         <button
-          type="submit" // Change to submit type
+          type="submit"
           className="w-full bg-green-500 text-white p-3 rounded-lg"
         >
           Login

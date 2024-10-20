@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const AdminHome = () => {
-  const slots = [0, 1, 0, 1, 0, 0, 1, 0, 0, 1]; // Example: 0 = available, 1 = occupied
+  const slots = [0, 1, 0, 1, 0, 0, 1, 0, 0, 1];
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 p-5">
@@ -12,7 +12,7 @@ const AdminHome = () => {
           <div key={index} className="flex items-center justify-center">
             <div
               className={`h-48 w-48 rounded-full flex items-center justify-center text-white font-bold relative ${
-                slot === 0 ? 'bg-green-500' : 'bg-red-500'
+                slot === 0 ? "bg-green-500" : "bg-red-500"
               }`}
             >
               <span className="absolute text-xl font-semibold text-black">
@@ -20,7 +20,7 @@ const AdminHome = () => {
               </span>
             </div>
             <span className="ml-4 text-xl font-semibold text-center">
-              {slot === 0 ? 'Available' : 'Occupied'}
+              {slot === 0 ? "Available" : "Occupied"}
             </span>
           </div>
         ))}
