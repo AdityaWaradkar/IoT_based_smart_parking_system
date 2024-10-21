@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Define the ParkingDuration schema
 const ParkingDurationSchema = new mongoose.Schema({
   userName: {
     type: String,

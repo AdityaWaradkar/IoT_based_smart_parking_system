@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Define the ParkingTransaction schema
 const ParkingTransactionSchema = new mongoose.Schema({
   userName: {
     type: String,
