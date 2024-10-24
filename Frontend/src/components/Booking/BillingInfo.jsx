@@ -7,12 +7,16 @@ const BillingInfo = () => {
   const navigate = useNavigate();
 
   // Retrieve values from the previous route
-  const { hours, minutes, userName } = location.state || {};
+  const { hours = 0, minutes = 0, userName = "Guest" } = location.state || {};
 
-  // Calculate total cost (example: 50 rupees per hour and 10 rupees per minute)
-  const hourlyRate = 50; // cost in rupees per hour
-  const minuteRate = 10; // cost in rupees per minute
-  const totalCost = hours * hourlyRate + minutes * minuteRate;
+  // Calculate total cost
+  const calculateTotalCost = (hrs, mins) => {
+    const hourlyRate = 50; // cost in rupees per hour
+    const minuteRate = 10; // cost in rupees per minute
+    return hrs * hourlyRate + mins * minuteRate;
+  };
+
+  const totalCost = calculateTotalCost(hours, minutes);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-white p-6">

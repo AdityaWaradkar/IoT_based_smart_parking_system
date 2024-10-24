@@ -47,39 +47,61 @@ const ParkingDuration = () => {
       }
 
       try {
-        const response = await fetch(
-          "http://localhost:5000/api/parking/parkingDuration",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userName,
-              hours: hoursValue,
-              minutes: minutesValue,
-            }), // Include userId here
-          }
+        // Check slot availability before booking
+        const availabilityResponse = await fetch(
+          "http://localhost:5000/api/slots/check-availability"
         );
 
-        const data = await response.json();
+        if (!availabilityResponse.ok) {
+          throw new Error("Error checking slot availability");
+        }
 
-        if (response.ok) {
-          toast.success(data.message, {
-            position: "top-center",
-            autoClose: 1000,
-          });
-          // Reset form fields
-          setHours("");
-          setMinutes("");
-          navigate("/user/home/parkingDuration/billing-info", {
-            state: { hours: hoursValue, minutes: minutesValue, userName },
-          });
+        const availabilityData = await availabilityResponse.json();
+        const availableSlotIndex = availabilityData.slots.findIndex(
+          (slot) => slot === 0
+        );
+
+        if (availableSlotIndex !== -1) {
+          // Proceed to book the parking duration
+          const response = await fetch(
+            "http://localhost:5000/api/parking/parkingDuration",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                userName,
+                hours: hoursValue,
+                minutes: minutesValue,
+                slotNumber: availableSlotIndex + 1, // Pass the slot number to book
+              }),
+            }
+          );
+
+          const data = await response.json();
+
+          if (response.ok) {
+            toast.success(data.message, {
+              position: "top-center",
+              autoClose: 1000,
+            });
+            // Reset form fields
+            setHours("");
+            setMinutes("");
+            navigate("/user/home/parkingDuration/billing-info", {
+              state: { hours: hoursValue, minutes: minutesValue, userName },
+            });
+          } else {
+            toast.error(data.message, { position: "top-center" });
+          }
         } else {
-          toast.error(data.message, { position: "top-center" });
+          toast.error("No slots available for booking.", {
+            position: "top-center",
+          });
         }
       } catch (error) {
-        toast.error("Error saving parking duration. Please try again.", {
+        toast.error("Error processing your request. Please try again.", {
           position: "top-center",
         });
       }

@@ -6,27 +6,6 @@ const AdminHome = () => {
   const [error, setError] = useState(null); // State to handle errors
 
   useEffect(() => {
-    const initializeSlots = async () => {
-      console.log("Initializing slots..."); // Log initialization start
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/slots/initialize-slots" // New URL to initialize slots
-        );
-
-        // Check response status, but do not throw an error for non-OK responses
-        if (!response.ok) {
-          console.warn("Failed to initialize slots: ", response.status);
-        } else {
-          console.log("Slots initialized successfully"); // Log success
-        }
-      } catch (err) {
-        console.error("Error during slots initialization:", err.message); // Log detailed error
-        setError(err.message); // Capture error
-      } finally {
-        await fetchSlots(); // Call to fetch slots after initialization
-      }
-    };
-
     const fetchSlots = async () => {
       console.log("Fetching slot availability..."); // Log fetching slots
       try {
@@ -60,7 +39,7 @@ const AdminHome = () => {
       }
     };
 
-    initializeSlots(); // Initialize slots on component mount
+    fetchSlots(); // Fetch slots on component mount
   }, []); // Empty dependency array to run only once on mount
 
   // Display loading message while fetching

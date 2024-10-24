@@ -8,8 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 const UserHome = () => {
   const navigate = useNavigate(); // Use navigate
 
-  // Function to check slot availability
-  const checkSlotAvailability = async () => {
+  // Function to check slot availability and book if available
+  const checkSlotAvailabilityAndBook = async () => {
     try {
       const response = await fetch(
         "http://localhost:5000/api/slots/check-availability"
@@ -20,11 +20,29 @@ const UserHome = () => {
       }
 
       const data = await response.json();
-      const availableSlots = data.slots.filter((slot) => slot === 0).length; // Count available slots
+      const availableSlotIndex = data.slots.findIndex((slot) => slot === 0); // Get the index of the first available slot
 
-      if (availableSlots > 0) {
-        // If slots are available, navigate to the parking duration route
-        navigate("/user/home/parkingDuration");
+      if (availableSlotIndex !== -1) {
+        // If slots are available, book the slot
+        const bookingResponse = await fetch(
+          "http://localhost:5000/api/slots/book",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ slotNumber: availableSlotIndex + 1 }), // Assuming slotNumber starts from 1
+          }
+        );
+
+        if (!bookingResponse.ok) {
+          throw new Error("Error booking the slot");
+        }
+
+        toast.success("Slot booked successfully!", {
+          position: "top-center",
+        });
+        navigate("/user/home/parkingDuration"); // Navigate to parking duration after successful booking
       } else {
         // If no slots are available, show a message
         toast.error(data.message || "Slots are full", {
@@ -50,7 +68,7 @@ const UserHome = () => {
 
   // Handle the "Book Now" button click
   const handleBookNowClick = () => {
-    checkSlotAvailability(); // Check slot availability before navigating
+    checkSlotAvailabilityAndBook(); // Check slot availability and book
   };
 
   return (

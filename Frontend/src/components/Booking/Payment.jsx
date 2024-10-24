@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const Payment = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [loading, setLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,11 +27,11 @@ const Payment = () => {
         script.src = "https://checkout.razorpay.com/v1/checkout.js";
         script.onload = () => {
           setIsLoaded(true);
-          console.log("Razorpay SDK loaded"); // Log for debugging
+          console.log("Razorpay SDK loaded");
           resolve(true);
         };
         script.onerror = () => {
-          console.error("Failed to load Razorpay SDK"); // Log if failed to load
+          console.error("Failed to load Razorpay SDK");
           resolve(false);
         };
         document.body.appendChild(script);
@@ -45,6 +46,8 @@ const Payment = () => {
       alert("Failed to load Razorpay SDK. Check your internet connection.");
       return;
     }
+
+    setLoading(true); // Set loading state to true
 
     try {
       console.log("Sending request to create order...");
@@ -62,6 +65,7 @@ const Payment = () => {
       console.log("Response from createOrder:", response);
 
       if (!response.ok) {
+        toast.error("Failed to create order on the server");
         throw new Error("Failed to create order on the server");
       }
 
@@ -69,6 +73,7 @@ const Payment = () => {
       console.log("Order Data from Razorpay:", orderData.amount);
 
       if (!orderData.id) {
+        toast.error("Invalid order data received");
         throw new Error("Invalid order data received");
       }
 
@@ -81,7 +86,7 @@ const Payment = () => {
         order_id: orderData.id,
         handler: async function (response) {
           console.log("Payment Response:", response);
-          alert("Payment Successful!");
+          toast.success("Payment Successful!");
 
           const transactionData = {
             userName,
@@ -104,6 +109,7 @@ const Payment = () => {
             );
 
             if (!transactionResponse.ok) {
+              toast.error("Failed to save transaction data.");
               throw new Error("Failed to save transaction data.");
             }
 
@@ -127,12 +133,16 @@ const Payment = () => {
                 );
 
                 if (!freeSlotResponse.ok) {
+                  toast.error("Failed to mark slot as available.");
                   throw new Error("Failed to mark slot as available.");
                 }
 
                 console.log("Slot marked as available successfully.");
               } catch (error) {
                 console.error("Error marking slot as available:", error);
+                toast.error(
+                  "Error marking slot as available: " + error.message
+                );
               }
             }, parkingDurationInMilliseconds);
 
@@ -162,7 +172,9 @@ const Payment = () => {
       paymentObject.open();
     } catch (error) {
       console.error("Error processing payment:", error);
-      alert("Error processing payment: " + error.message);
+      toast.error("Error processing payment: " + error.message);
+    } finally {
+      setLoading(false); // Set loading state to false after processing
     }
   };
 
@@ -180,7 +192,7 @@ const Payment = () => {
         <div className="mb-6">
           <p className="text-lg text-gray-600">Total Amount to Pay:</p>
           <h3 className="text-3xl font-bold text-blue-600 mt-2">
-            ₹ {totalCost} {/* Display totalCost here */}
+            ₹ {totalCost}
           </h3>
         </div>
 
@@ -191,9 +203,12 @@ const Payment = () => {
 
         <button
           onClick={handlePayment}
-          className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg w-full transition duration-300 ease-in-out mb-4"
+          disabled={loading} // Disable button while loading
+          className={`bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg w-full transition duration-300 ease-in-out mb-4 ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          Pay Now
+          {loading ? "Processing..." : "Pay Now"}
         </button>
 
         <button

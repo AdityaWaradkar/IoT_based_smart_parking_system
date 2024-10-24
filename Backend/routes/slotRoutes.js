@@ -13,7 +13,7 @@ async function fetchFromThingSpeak() {
 }
 
 // 2. Update Slot Table from ThingSpeak
-router.post("/update-slots", async (req, res) => {
+router.post("/sync-slots-with-thingspeak", async (req, res) => {
   try {
     console.log("Hurray, inside update slot route");
 
