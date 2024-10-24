@@ -11,8 +11,8 @@ const BillingInfo = () => {
 
   // Calculate total cost
   const calculateTotalCost = (hrs, mins) => {
-    const hourlyRate = 50; // cost in rupees per hour
-    const minuteRate = 10; // cost in rupees per minute
+    const hourlyRate = 60; // cost in rupees per hour
+    const minuteRate = 1; // cost in rupees per minute
     return hrs * hourlyRate + mins * minuteRate;
   };
 

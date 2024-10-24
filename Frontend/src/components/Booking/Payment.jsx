@@ -9,7 +9,7 @@ const Payment = () => {
   const location = useLocation();
 
   // Get values passed via navigate
-  const { totalCost, userName, hours, minutes, slotId } = location.state || {}; // Add slotId
+  const { totalCost, userName, hours, minutes } = location.state || {}; // Removed slotId
 
   // Check if totalCost is undefined
   if (totalCost === undefined) {
@@ -50,6 +50,7 @@ const Payment = () => {
     setLoading(true); // Set loading state to true
 
     try {
+      // Proceed to create the payment order
       console.log("Sending request to create order...");
       const response = await fetch(
         "http://localhost:5000/api/payment/createOrder",
@@ -77,6 +78,7 @@ const Payment = () => {
         throw new Error("Invalid order data received");
       }
 
+      // Razorpay options setup
       const options = {
         key: "rzp_test_NjMCuCfEfKS9bs", // Your Razorpay test key
         amount: orderData.amount,
@@ -88,6 +90,7 @@ const Payment = () => {
           console.log("Payment Response:", response);
           toast.success("Payment Successful!");
 
+          // Save transaction data
           const transactionData = {
             userName,
             parkingDuration: `${hours} hours ${minutes} minutes`,
@@ -115,36 +118,25 @@ const Payment = () => {
 
             toast.success("Transaction data saved!");
 
-            // Schedule a task to mark the slot as available after parking duration
-            const parkingDurationInMilliseconds =
-              (hours * 60 + minutes) * 60 * 1000;
-
-            setTimeout(async () => {
-              try {
-                console.log("Marking slot as available...");
-                const freeSlotResponse = await fetch(
-                  `http://localhost:5000/api/slots/${slotId}/available`, // Update the API endpoint
-                  {
-                    method: "PUT",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                  }
-                );
-
-                if (!freeSlotResponse.ok) {
-                  toast.error("Failed to mark slot as available.");
-                  throw new Error("Failed to mark slot as available.");
-                }
-
-                console.log("Slot marked as available successfully.");
-              } catch (error) {
-                console.error("Error marking slot as available:", error);
-                toast.error(
-                  "Error marking slot as available: " + error.message
-                );
+            // Now call the booking route (without passing slotId)
+            console.log("Booking the parking slot...");
+            const bookingResponse = await fetch(
+              "http://localhost:5000/api/slots/book", // Adjusted endpoint
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({}), // No need to pass userName or slotId
               }
-            }, parkingDurationInMilliseconds);
+            );
+
+            if (!bookingResponse.ok) {
+              toast.error("Failed to book the parking slot.");
+              throw new Error("Failed to book the parking slot.");
+            }
+
+            console.log("Slot booked successfully.");
 
             // Navigate to the success page
             navigate(
@@ -154,7 +146,7 @@ const Payment = () => {
               }
             );
           } catch (error) {
-            console.error("Error processing transaction:", error);
+            console.error("Error processing transaction or booking:", error);
             toast.error("Error: " + error.message);
           }
         },

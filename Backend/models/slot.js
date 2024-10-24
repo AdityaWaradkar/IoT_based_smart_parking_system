@@ -6,14 +6,10 @@ const slotSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  isAvailable: {
-    type: Number, // Change this to Number
+  slotStatus: {
+    type: Number,
     required: true,
     default: 0, // 0 for available, 1 for occupied
-  },
-  occupiedUntil: {
-    type: Date,
-    default: null,
   },
 });
 

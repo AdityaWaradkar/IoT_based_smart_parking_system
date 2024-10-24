@@ -1,15 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import CardSection from "../CardSection/CardSection";
-import Slider from "../Slider/Slider";
-import { toast, ToastContainer } from "react-toastify"; // Import toast for notifications
-import "react-toastify/dist/ReactToastify.css";
 
 const UserHome = () => {
   const navigate = useNavigate(); // Use navigate
 
-  // Function to check slot availability and book if available
-  const checkSlotAvailabilityAndBook = async () => {
+  // Function to check slot availability
+  const checkSlotAvailability = async () => {
     try {
       const response = await fetch(
         "http://localhost:5000/api/slots/check-availability"
@@ -23,36 +20,14 @@ const UserHome = () => {
       const availableSlotIndex = data.slots.findIndex((slot) => slot === 0); // Get the index of the first available slot
 
       if (availableSlotIndex !== -1) {
-        // If slots are available, book the slot
-        const bookingResponse = await fetch(
-          "http://localhost:5000/api/slots/book",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ slotNumber: availableSlotIndex + 1 }), // Assuming slotNumber starts from 1
-          }
-        );
-
-        if (!bookingResponse.ok) {
-          throw new Error("Error booking the slot");
-        }
-
-        toast.success("Slot booked successfully!", {
-          position: "top-center",
-        });
-        navigate("/user/home/parkingDuration"); // Navigate to parking duration after successful booking
+        // If slots are available, navigate to parking duration
+        navigate("/user/home/parkingDuration");
       } else {
-        // If no slots are available, show a message
-        toast.error(data.message || "Slots are full", {
-          position: "top-center",
-        });
+        // If no slots are available, you can handle this however you like
+        console.log("No slots available");
       }
     } catch (error) {
-      toast.error("Error checking slot availability", {
-        position: "top-center",
-      });
+      console.error("Error checking slot availability", error);
     }
   };
 
@@ -68,7 +43,7 @@ const UserHome = () => {
 
   // Handle the "Book Now" button click
   const handleBookNowClick = () => {
-    checkSlotAvailabilityAndBook(); // Check slot availability and book
+    checkSlotAvailability(); // Check slot availability
   };
 
   return (
@@ -81,7 +56,6 @@ const UserHome = () => {
           onBookNowClick={handleBookNowClick} // Pass the book now handler
         />
       </div>
-      <ToastContainer /> {/* ToastContainer for notifications */}
     </div>
   );
 };
