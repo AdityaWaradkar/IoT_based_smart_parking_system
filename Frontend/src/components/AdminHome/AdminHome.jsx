@@ -5,42 +5,91 @@ const AdminHome = () => {
   const [loading, setLoading] = useState(true); // State to handle loading state
   const [error, setError] = useState(null); // State to handle errors
 
-  useEffect(() => {
-    const fetchSlots = async () => {
-      console.log("Fetching slot availability..."); // Log fetching slots
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/slots/check-availability" // Adjust URL as needed
-        );
+  // Function to fetch slots
+  const fetchSlots = async () => {
+    console.log("Fetching slot availability..."); // Log fetching slots
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/slots/check-availability" // Adjust URL as needed
+      );
 
-        // Check response status, but do not throw an error for non-OK responses
-        if (!response.ok) {
-          console.warn("Failed to fetch slots: ", response.status);
-          setSlots([]); // Set slots to empty if there's an error
-          return; // Exit the function early
-        }
-
-        const data = await response.json();
-        console.log("Fetched slot availability:", data); // Log response data
-
-        // Handle case where data may not have slots
-        if (data && data.slots) {
-          setSlots(data.slots); // Set the fetched slots data
-        } else {
-          console.warn("No slots data returned");
-          setSlots([]); // Set to empty if slots are null
-        }
-      } catch (err) {
-        console.error("Error fetching slots:", err.message); // Log detailed error
-        setError(err.message); // Capture any errors
-      } finally {
-        setLoading(false); // Update loading state
-        console.log("Loading state updated:", false); // Log loading state
+      if (!response.ok) {
+        console.warn("Failed to fetch slots: ", response.status);
+        setSlots([]); // Set slots to empty if there's an error
+        return; // Exit the function early
       }
-    };
 
+      const data = await response.json();
+      console.log("Fetched slot availability:", data); // Log response data
+
+      if (data && data.slots) {
+        setSlots(data.slots); // Set the fetched slots data
+      } else {
+        console.warn("No slots data returned");
+        setSlots([]); // Set to empty if slots are null
+      }
+    } catch (err) {
+      console.error("Error fetching slots:", err.message); // Log detailed error
+      setError(err.message); // Capture any errors
+    } finally {
+      setLoading(false); // Update loading state
+      console.log("Loading state updated:", false); // Log loading state
+    }
+  };
+
+  useEffect(() => {
     fetchSlots(); // Fetch slots on component mount
   }, []); // Empty dependency array to run only once on mount
+
+  // Function to reserve the first available slot
+  const reserveSlot = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/slots/book", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to reserve slot");
+      }
+
+      const result = await response.json();
+      console.log("Slot reserved:", result.message);
+      fetchSlots(); // Re-fetch slots to update the state
+    } catch (err) {
+      console.error("Error reserving slot:", err.message);
+      setError(err.message); // Set error state
+    }
+  };
+
+  // Function to unreserve the first occupied slot
+  const unreserveSlot = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/slots/unreserve",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Check if the response is okay (status 2xx)
+      if (!response.ok) {
+        throw new Error("Failed to unreserve slot");
+      }
+
+      // No need to process the result since nothing is returned
+      console.log("Slot unreserved successfully");
+      fetchSlots(); // Re-fetch slots to update the state
+    } catch (err) {
+      console.error("Error unreserving slot:", err.message);
+      setError(err.message); // Set error state
+    }
+  };
 
   // Display loading message while fetching
   if (loading) {
@@ -75,7 +124,24 @@ const AdminHome = () => {
         ))}
       </div>
 
+      {/* Buttons for reserving and unreserving slots */}
       <div className="flex justify-center gap-5">
+        <button
+          onClick={reserveSlot}
+          className="bg-blue-500 text-white py-4 px-8 rounded-lg text-xl hover:bg-blue-600 transition"
+        >
+          Reserve Slot
+        </button>
+
+        <button
+          onClick={unreserveSlot}
+          className="bg-red-500 text-white py-4 px-8 rounded-lg text-xl hover:bg-red-600 transition"
+        >
+          Unreserve Slot
+        </button>
+      </div>
+
+      <div className="flex justify-center gap-5 mt-5">
         <button className="bg-blue-500 text-white py-4 px-8 rounded-lg text-xl hover:bg-blue-600 transition">
           See User Details
         </button>
