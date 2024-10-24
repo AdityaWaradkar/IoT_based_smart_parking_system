@@ -8,7 +8,7 @@ const Payment = () => {
   const location = useLocation();
 
   // Get values passed via navigate
-  const { totalCost, userName, hours, minutes } = location.state || {};
+  const { totalCost, userName, hours, minutes, slotId } = location.state || {}; // Add slotId
 
   // Check if totalCost is undefined
   if (totalCost === undefined) {
@@ -47,7 +47,6 @@ const Payment = () => {
     }
 
     try {
-      // Fetch the order from the server
       console.log("Sending request to create order...");
       const response = await fetch(
         "http://localhost:5000/api/payment/createOrder",
@@ -56,19 +55,16 @@ const Payment = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ amount: totalCostInPaise }), // Send amount in paise
+          body: JSON.stringify({ amount: totalCostInPaise }),
         }
       );
 
-      // Log the raw response
       console.log("Response from createOrder:", response);
 
-      // Check for successful response
       if (!response.ok) {
         throw new Error("Failed to create order on the server");
       }
 
-      // Parse the response as JSON
       const orderData = await response.json();
       console.log("Order Data from Razorpay:", orderData.amount);
 
@@ -78,7 +74,7 @@ const Payment = () => {
 
       const options = {
         key: "rzp_test_NjMCuCfEfKS9bs", // Your Razorpay test key
-        amount: orderData.amount, // Order amount in paise
+        amount: orderData.amount,
         currency: "INR",
         name: "ParkSense",
         description: "Parking Payment",
@@ -87,7 +83,6 @@ const Payment = () => {
           console.log("Payment Response:", response);
           alert("Payment Successful!");
 
-          // Create an object to send to the backend
           const transactionData = {
             userName,
             parkingDuration: `${hours} hours ${minutes} minutes`,
@@ -95,8 +90,8 @@ const Payment = () => {
             paymentId: response.razorpay_payment_id,
           };
           console.log(transactionData);
+
           try {
-            // Make POST request to save transaction data
             const transactionResponse = await fetch(
               "http://localhost:5000/api/parkingTransaction/data",
               {
@@ -112,8 +107,36 @@ const Payment = () => {
               throw new Error("Failed to save transaction data.");
             }
 
-            toast.success("Transaction data saved successfully!");
-            // Navigate to success page
+            toast.success("Transaction data saved!");
+
+            // Schedule a task to mark the slot as available after parking duration
+            const parkingDurationInMilliseconds =
+              (hours * 60 + minutes) * 60 * 1000;
+
+            setTimeout(async () => {
+              try {
+                console.log("Marking slot as available...");
+                const freeSlotResponse = await fetch(
+                  `http://localhost:5000/api/slots/${slotId}/available`, // Update the API endpoint
+                  {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                );
+
+                if (!freeSlotResponse.ok) {
+                  throw new Error("Failed to mark slot as available.");
+                }
+
+                console.log("Slot marked as available successfully.");
+              } catch (error) {
+                console.error("Error marking slot as available:", error);
+              }
+            }, parkingDurationInMilliseconds);
+
+            // Navigate to the success page
             navigate(
               "/user/home/parkingDuration/billing-info/payment/success",
               {
@@ -121,12 +144,12 @@ const Payment = () => {
               }
             );
           } catch (error) {
-            console.error("Error saving transaction data:", error);
-            toast.error("Error saving transaction data: " + error.message);
+            console.error("Error processing transaction:", error);
+            toast.error("Error: " + error.message);
           }
         },
         prefill: {
-          name: "Aditya Waradkar",
+          name: userName || "Aditya Waradkar",
           email: "aditya@example.com",
           contact: "9999999999",
         },

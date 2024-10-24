@@ -5,9 +5,15 @@ const SuccessMessage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Retrieve data passed from BillingInfo
-  const { userName, hours, minutes, totalCost, transactionTime } =
-    location.state || {};
+  // Retrieve data passed from Payment
+  const {
+    userName,
+    hours,
+    minutes,
+    totalCost,
+    bookedSlot, // New addition
+    paymentId, // New addition if needed
+  } = location.state || {};
 
   const handleBackToHome = () => {
     navigate("/user/home"); // Adjust the path as per your routing structure
@@ -28,8 +34,10 @@ const SuccessMessage = () => {
         </p>
         <p className="text-lg text-gray-600 mb-4">Total Cost: ₹{totalCost}</p>
         <p className="text-lg text-gray-600 mb-4">
-          Transaction Time: {transactionTime} {/* Display transaction time */}
+          Booked Slot: {bookedSlot} {/* Display booked slot information */}
         </p>
+        {/* Uncomment the next line if you want to display the payment ID */}
+        {/* <p className="text-lg text-gray-600 mb-4">Payment ID: {paymentId}</p> */}
         <button
           onClick={handleBackToHome}
           className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-4 px-8 rounded-lg w-full transition duration-300 ease-in-out text-lg"

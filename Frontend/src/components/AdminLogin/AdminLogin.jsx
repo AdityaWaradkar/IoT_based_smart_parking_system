@@ -13,6 +13,7 @@ const AdminLogin = () => {
 
     if (adminKey && password) {
       try {
+        // Login request
         const response = await fetch("http://localhost:5000/api/admin/login", {
           method: "POST",
           headers: {
@@ -24,22 +25,28 @@ const AdminLogin = () => {
         const data = await response.json();
 
         if (response.ok) {
+          // Success message for login
           toast.success(data.message, {
             position: "top-center",
             autoClose: 1000,
           });
+
+          // Navigate to admin home after login success
           setTimeout(() => {
             navigate("/admin/home");
           }, 1000);
         } else {
+          // Error message for login failure
           toast.error(data.message, { position: "top-center" });
         }
       } catch (error) {
+        // Error message for network issues
         toast.error("Login failed. Please try again.", {
           position: "top-center",
         });
       }
     } else {
+      // Error message for empty fields
       toast.error("Please fill in all fields.", { position: "top-center" });
     }
   };

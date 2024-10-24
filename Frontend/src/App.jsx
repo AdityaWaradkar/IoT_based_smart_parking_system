@@ -1,41 +1,39 @@
-import React from 'react';
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   useLocation,
-} from 'react-router-dom';
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
-import UserSelection from './components/UserSelection/UserSelection';
-import UserLogin from './components/UserLoginRegister/UserLogin';
-import UserRegister from './components/UserLoginRegister/UserRegister';
-import AdminLogin from './components/AdminLogin/AdminLogin';
-import UserHome from './components/UserHome/UserHome';
-import AdminHome from './components/AdminHome/AdminHome';
-import Map from './components/Map/Map';
-import UserHistory from './components/UserHistory/UserHistory';
-import ParkingDuration from './components/Booking/ParkingDuration';
-import BillingInfo from './components/Booking/BillingInfo'; 
-import Parking from './components/Booking/Payment'
-import Payment from './components/Booking/Payment';
-import SuccessMessage from './components/Booking/SuccessMessage';
-// Import the BillingInfo component
+} from "react-router-dom";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import UserSelection from "./components/UserSelection/UserSelection";
+import UserLogin from "./components/UserLoginRegister/UserLogin";
+import UserRegister from "./components/UserLoginRegister/UserRegister";
+import AdminLogin from "./components/AdminLogin/AdminLogin";
+import UserHome from "./components/UserHome/UserHome";
+import AdminHome from "./components/AdminHome/AdminHome";
+import Map from "./components/Map/Map";
+import UserHistory from "./components/UserHistory/UserHistory";
+import ParkingDuration from "./components/Booking/ParkingDuration";
+import BillingInfo from "./components/Booking/BillingInfo";
+import Payment from "./components/Booking/Payment";
+import SuccessMessage from "./components/Booking/SuccessMessage";
 
 function App() {
   const location = useLocation();
-  const noHeaderPaths = ['/', '/user/login', '/user/register', '/admin/login'];
-  const noFooterPaths = ['/', '/user/login', '/user/register', '/admin/login'];
+  const noHeaderPaths = ["/", "/user/login", "/user/register", "/admin/login"];
+  const noFooterPaths = ["/", "/user/login", "/user/register", "/admin/login"];
 
   // Determine if the current route is UserSelection
-  const isUserSelection = location.pathname === '/';
+  const isUserSelection = location.pathname === "/";
 
   return (
     <div className="h-screen flex flex-col bg-gray-100">
       {/* Conditional rendering of Header */}
       {!noHeaderPaths.includes(location.pathname) && <Header />}
 
-      <div className={`flex-grow ${!isUserSelection ? 'pt-16' : ''}`}>
+      <div className={`flex-grow ${!isUserSelection ? "pt-16" : ""}`}>
         <Routes>
           <Route path="/" element={<UserSelection />} />
           <Route path="/user/login" element={<UserLogin />} />
@@ -48,11 +46,22 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminHome />} />
           <Route path="/user/home/map" element={<Map />} />
           <Route path="/user/home/history" element={<UserHistory />} />
-          <Route path="/user/home/parkingDuration" element={<ParkingDuration />} />
-          <Route path="/user/home/parkingDuration/billing-info" element={<BillingInfo />} />
-          <Route path="/user/home/parkingDuration/billing-info/payment" element={<Payment />} />
-          <Route path="/user/home/parkingDuration/billing-info/payment/success" element={<SuccessMessage />} />
-      
+          <Route
+            path="/user/home/parkingDuration"
+            element={<ParkingDuration />}
+          />
+          <Route
+            path="/user/home/parkingDuration/billing-info"
+            element={<BillingInfo />}
+          />
+          <Route
+            path="/user/home/parkingDuration/billing-info/payment"
+            element={<Payment />}
+          />
+          <Route
+            path="/user/home/parkingDuration/billing-info/payment/success"
+            element={<SuccessMessage />}
+          />
         </Routes>
       </div>
 

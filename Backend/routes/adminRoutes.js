@@ -1,8 +1,11 @@
 const express = require("express");
 const Admin = require("../models/adminModel");
+const Slot = require("../models/slot");
+const fetch = require("node-fetch"); // Using node-fetch to fetch data from ThingSpeak
 
 const router = express.Router();
 
+// 1. Admin Login
 router.post("/login", async (req, res) => {
   const { adminKey, password } = req.body;
 
@@ -20,5 +23,8 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
+
 
 module.exports = router;
