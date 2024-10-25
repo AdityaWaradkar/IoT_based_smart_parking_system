@@ -15,11 +15,11 @@ const Footer = () => {
               href="mailto:support@parksense.com"
               className="text-blue-400 hover:underline"
             >
-              support@parksense.com
+              supportpark@sense.com
             </a>
           </p>
           <p className="mb-2">
-            Phone: <span className="text-blue-400">+1 (555) 123-4567</span>
+            Phone: <span className="text-blue-400">+91 9999999999</span>
           </p>
         </div>
 

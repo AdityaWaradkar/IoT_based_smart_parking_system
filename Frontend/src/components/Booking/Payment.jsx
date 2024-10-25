@@ -151,8 +151,8 @@ const Payment = () => {
           }
         },
         prefill: {
-          name: userName || "Aditya Waradkar",
-          email: "aditya@example.com",
+          name: userName || "ParkSense",
+          email: "park@sense.com",
           contact: "9999999999",
         },
         theme: {

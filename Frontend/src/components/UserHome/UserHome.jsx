@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { toast, ToastContainer } from "react-toastify"; // Import Toastify
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS for Toastify
 import CardSection from "../CardSection/CardSection";
 
 const UserHome = () => {
@@ -23,11 +25,19 @@ const UserHome = () => {
         // If slots are available, navigate to parking duration
         navigate("/user/home/parkingDuration");
       } else {
-        // If no slots are available, you can handle this however you like
-        console.log("No slots available");
+        // Show basic toast notification if no slots are available
+        toast(
+          "No slots available, please try again after some time. Thank you",
+          {
+            position: "top-center", // Directly passing the position string
+          }
+        );
       }
     } catch (error) {
       console.error("Error checking slot availability", error);
+      toast("Failed to check slot availability. Please try again.", {
+        position: "top-center", // Directly passing the position string
+      });
     }
   };
 
@@ -48,6 +58,9 @@ const UserHome = () => {
 
   return (
     <div className="flex flex-col h-screen">
+      {/* ToastContainer for notifications */}
+      <ToastContainer />
+
       {/* CardSection for interaction */}
       <div className="flex-grow w-full bg-gray-200 mb-5">
         <CardSection

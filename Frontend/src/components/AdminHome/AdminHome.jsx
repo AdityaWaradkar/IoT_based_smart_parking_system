@@ -140,12 +140,6 @@ const AdminHome = () => {
           Unreserve Slot
         </button>
       </div>
-
-      <div className="flex justify-center gap-5 mt-5">
-        <button className="bg-blue-500 text-white py-4 px-8 rounded-lg text-xl hover:bg-blue-600 transition">
-          See User Details
-        </button>
-      </div>
     </div>
   );
 };
