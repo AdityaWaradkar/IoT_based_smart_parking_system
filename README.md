@@ -6,7 +6,7 @@ The IoT-Based Smart Parking System is a semester 5 project for Computer Engineer
 
 ## Team Members
 
-- **Aditya Waradkar** (Project Owner)
+- **Aditya Waradkar** 
 - **Anagha Galagali**
 - **Shloka Suvarna**
 - **Niha Solkar**
