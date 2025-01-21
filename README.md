@@ -34,7 +34,7 @@ The IoT-Based Smart Parking System is a semester 5 project for Computer Engineer
 
 - **Frontend:** React, Vite
 - **Backend:** Node.js, Express
-- **Database:** Firebase
+- **Database:** MOngo DB Atlas
 - **IoT Integration:** ThingSpeak for data transfer
 - **Styling:** Tailwind CSS
 
